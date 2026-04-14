@@ -1,99 +1,113 @@
 """
-Struct-XAI Projesi - Çekirdek Metodoloji (Layer-wise Causal Attribution) 🧠✨
-Model: Qwen2.5-7B-Instruct (CPU Modu)
-Amaç: Sadece son kararı değil, modelin *içindeki* her bir katmanın (Layer)
-kararlarının girdideki hangi kelimeden etkilendiğini (Ablasyon/SHAP ile) bulmak.
+Struct-XAI - Çekirdek Katman Analizi (MVP)
+
+Bu sürüm demo/makale hazırlığı için "çalışır" olacak şekilde sadeleştirildi:
+- Varsayılan model hafif (sshleifer/tiny-gpt2)
+- Katman sayısı modelden dinamik okunur
+- Güven skoru ham logit değil, olasılık (softmax)
 """
 
+from __future__ import annotations
+
+import argparse
+from dataclasses import dataclass
+
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM
-
-MODEL_NAME = "Qwen/Qwen2.5-7B-Instruct"
-DEVICE = "cpu"
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
 
-def get_layer_predictions(prompt, model, tokenizer):
-    """
-    Modelin her bir katmanında (layer), 'Sıradaki kelime ne?'
-    sorusuna verdiği en yüksek ihtimalli cevabı ve skorunu alır.
-    """
-    inputs = tokenizer(prompt, return_tensors="pt").to(DEVICE)
+DEFAULT_MODEL = "sshleifer/tiny-gpt2"
+DEFAULT_PROMPT = (
+    "Sen bir tiyatro asistanısın. Sadece istenen başlığı çıkar.\n"
+    "Girdi: Adam sinirle masaya vurdu ve bağırdı.\n"
+    "Çıktı:\nSCENE_DIRECTIONS:\n-"
+)
+
+
+@dataclass
+class LayerPrediction:
+    token: str
+    prob: float
+
+
+def _final_norm(model, hidden: torch.Tensor) -> torch.Tensor:
+    """Farklı mimarilerde final norm katmanını güvenli şekilde uygular."""
+    if hasattr(model, "model") and hasattr(model.model, "norm"):
+        return model.model.norm(hidden)
+    if hasattr(model, "transformer") and hasattr(model.transformer, "ln_f"):
+        return model.transformer.ln_f(hidden)
+    return hidden
+
+
+def get_layer_predictions(prompt: str, model, tokenizer, device: str) -> list[LayerPrediction]:
+    inputs = tokenizer(prompt, return_tensors="pt").to(device)
     with torch.no_grad():
         outputs = model(**inputs, output_hidden_states=True)
 
-    layer_preds = []
-    final_norm = model.model.norm
-    lm_head = model.lm_head
+    layer_preds: list[LayerPrediction] = []
     final_token_idx = -1
 
     for h_state in outputs.hidden_states:
         token_hidden_state = h_state[0, final_token_idx, :]
-        normalized_state = final_norm(token_hidden_state)
-        logits = lm_head(normalized_state)
+        normalized_state = _final_norm(model, token_hidden_state)
+        logits = model.lm_head(normalized_state)
+        probs = torch.softmax(logits, dim=-1)
 
-        confidence = logits.max().item()
-        top_token_id = logits.argmax().item()
+        top_token_id = probs.argmax().item()
         top_token_str = tokenizer.decode([top_token_id])
-        layer_preds.append((top_token_str, confidence))
+        layer_preds.append(LayerPrediction(token=top_token_str, prob=float(probs[top_token_id].item())))
 
     return layer_preds
 
 
-def main():
-    print("🪄 Struct-XAI: Nihai Metodoloji Başlatılıyor...")
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
-    model = AutoModelForCausalLM.from_pretrained(
-        MODEL_NAME,
-        torch_dtype=torch.bfloat16,
-        low_cpu_mem_usage=True
-    )
+def run_analysis(model_name: str, device: str) -> None:
+    print(f"🪄 Struct-XAI Core | model={model_name} | device={device}")
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModelForCausalLM.from_pretrained(model_name).to(device)
 
-    base_prompt = "Sen bir tiyatro asistanısın. Sadece istenen başlığı çıkar.\nGirdi: Adam sinirle masaya vurdu ve bağırdı.\nÇıktı:\nSCENE_DIRECTIONS:\n-"
-
-    # 1. ORİJİNAL DÜŞÜNCEYİ AL
-    print("\n[Orijinal Düşünce Nehri Haritalandırılıyor...]")
-    base_preds = get_layer_predictions(base_prompt, model, tokenizer)
-
-    # 2. ABLASYON HEDEFLERİ (Hangi kelimelerin önemini ölçeceğiz?)
-    # "sinirle" kelimesini sildiğimizde Latent Space nasıl sapıyor?
+    base_prompt = DEFAULT_PROMPT
     test_cases = [
-        ("sinirle",
-         "Sen bir tiyatro asistanısın. Sadece istenen başlığı çıkar.\nGirdi: Adam masaya vurdu ve bağırdı.\nÇıktı:\nSCENE_DIRECTIONS:\n-"),
-        ("masaya",
-         "Sen bir tiyatro asistanısın. Sadece istenen başlığı çıkar.\nGirdi: Adam sinirle vurdu ve bağırdı.\nÇıktı:\nSCENE_DIRECTIONS:\n-")
+        (
+            "sinirle",
+            "Sen bir tiyatro asistanısın. Sadece istenen başlığı çıkar.\n"
+            "Girdi: Adam masaya vurdu ve bağırdı.\n"
+            "Çıktı:\nSCENE_DIRECTIONS:\n-",
+        ),
+        (
+            "masaya",
+            "Sen bir tiyatro asistanısın. Sadece istenen başlığı çıkar.\n"
+            "Girdi: Adam sinirle vurdu ve bağırdı.\n"
+            "Çıktı:\nSCENE_DIRECTIONS:\n-",
+        ),
     ]
 
-    print("\n📊 STRUCT-XAI: KATMAN BAZLI ETKİ ANALİZİ")
-    print("=" * 75)
-    print(f"Hedef Katman | Orijinal Karar | 'sinirle' silindiğinde | 'masaya' silindiğinde")
-    print("-" * 75)
+    base_preds = get_layer_predictions(base_prompt, model, tokenizer, device)
+    ablated_preds = {word: get_layer_predictions(prompt, model, tokenizer, device) for word, prompt in test_cases}
 
-    # Sadece kritik "Aydınlanma" katmanlarına (15'ten 28'e kadar) bakalım
-    # Çünkü Slayt 10 "Pivot Hypothesis" bize asıl aksiyonun derin katmanlarda koptuğunu söylüyor!
-    start_layer = 15
-    end_layer = len(base_preds)
+    start_layer = max(0, len(base_preds) // 2)
+    print("\n📊 KATMAN BAZLI ETKİ ANALİZİ")
+    print("=" * 96)
+    print(f"{'Katman':<8} | {'Orijinal':<25} | {'sinirle silinince':<25} | {'masaya silinince':<25}")
+    print("-" * 96)
 
-    ablated_preds = {}
-    for word, prompt in test_cases:
-        ablated_preds[word] = get_layer_predictions(prompt, model, tokenizer)
+    for i in range(start_layer, len(base_preds)):
+        orig = base_preds[i]
+        sinir = ablated_preds["sinirle"][i]
+        masa = ablated_preds["masaya"][i]
+        print(
+            f"{i:<8} | {repr(orig.token)} ({orig.prob:.3f})".ljust(35)
+            + f"| {repr(sinir.token)} ({sinir.prob:.3f})".ljust(35)
+            + f"| {repr(masa.token)} ({masa.prob:.3f})"
+        )
+    print("=" * 96)
 
-    for i in range(start_layer, end_layer):
-        orig_word, orig_conf = base_preds[i]
 
-        sinir_word, sinir_conf = ablated_preds["sinirle"][i]
-        masa_word, masa_conf = ablated_preds["masaya"][i]
-
-        # Formatı düzenle
-        orig_str = f"{repr(orig_word)} ({orig_conf:.1f})"
-        sinir_str = f"{repr(sinir_word)} ({sinir_conf:.1f})"
-        masa_str = f"{repr(masa_word)} ({masa_conf:.1f})"
-
-        print(f"Layer {i:<6} | {orig_str:<14} | {sinir_str:<22} | {masa_str}")
-
-    print("=" * 75)
-    print("\n💣 ALICE'İN YORUMU:")
-    print("Eğer bir katmanda 'sinirle' sütunundaki kelime, Orijinal Karardan farklıysa,")
-    print("bu demektir ki 'sinirle' kelimesi o katmanın düşüncesini %100 kontrol ediyordu!")
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--model", default=DEFAULT_MODEL)
+    parser.add_argument("--device", default="cpu")
+    args = parser.parse_args()
+    run_analysis(args.model, args.device)
 
 
 if __name__ == "__main__":
