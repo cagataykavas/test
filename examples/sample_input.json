@@ -1,0 +1,25 @@
+{
+  "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+  "example_id": "geo_ankara",
+  "target_token": " Ankara",
+  "distractor_token": " Istanbul",
+  "threshold": 0.0,
+  "min_consecutive": 2,
+  "layer_numbers": [0, 1, 2, 3, 4, 5],
+  "target_logits": [0.1, 0.3, 0.8, 1.5, 2.0, 2.4],
+  "distractor_logits": [0.4, 0.5, 0.7, 0.9, 1.0, 1.1],
+  "top_tokens": [" city", " Turkey", " capital", " Ankara", " Ankara", " Ankara"],
+  "metadata": {
+    "dataset": "TR-XAI-Mini",
+    "category": "geography",
+    "projection": "final_norm_then_lm_head"
+  },
+  "ablations": [
+    {
+      "feature": "capital cue",
+      "target_logits": [0.0, 0.1, 0.4, 0.7, 0.9, 1.1],
+      "distractor_logits": [0.4, 0.5, 0.7, 0.9, 1.0, 1.1],
+      "top_tokens": [" city", " Turkey", " city", " Istanbul", " Istanbul", " Ankara"]
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "struct-xai"
+version = "0.1.0"
+description = "Model-agnostic metrics and explainable JSON reports for layer-wise LLM analysis"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+  { name = "Çağatay Kavas" }
+]
+dependencies = [
+  "numpy>=1.26"
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence"
+]
+
+[project.optional-dependencies]
+hf = [
+  "accelerate>=0.34",
+  "torch>=2.2",
+  "transformers>=4.45"
+]
+viz = [
+  "matplotlib>=3.8",
+  "seaborn>=0.13"
+]
+
+[project.scripts]
+struct-xai = "struct_xai.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
