@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: structxai
+      POSTGRES_PASSWORD: structxai
+      POSTGRES_DB: structxai
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U structxai -d structxai"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: .
+    environment:
+      DATABASE_URL: postgresql+psycopg2://structxai:structxai@db:5432/structxai
+      LOCAL_ARTIFACT_DIR: /app/artifacts
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./artifacts:/app/artifacts
+
+volumes:
+  pgdata:
