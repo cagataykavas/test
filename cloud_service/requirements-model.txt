@@ -1,0 +1,4 @@
+# Install CPU torch from its official CPU index before these optional packages.
+-r requirements.txt
+torch>=2.2
+transformers>=4.50

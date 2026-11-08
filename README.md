@@ -111,3 +111,33 @@ GitHub Actions installs dependencies, compiles the service modules, runs lightwe
 ## Research status
 
 Struct-XAI remains a research project. The cloud layer is designed to make the experiments easier to reproduce, inspect and operationalize without hiding the underlying analysis code behind a black box.
+
+## Real local model execution (explicit opt-in)
+
+The default worker is now explicitly labeled `backend: demo` and
+`is_model_execution: false`. Its hash-derived values are not model results.
+For actual model inference, install CPU PyTorch and `transformers` alongside the
+service dependencies, cache the checkpoint beforehand, and submit:
+
+```json
+{"name":"qwen-real","model_name":"Qwen/Qwen2.5-0.5B-Instruct",
+ "prompt":"Türkiye'nin başkenti hangi şehirdir?","analysis_type":"layer_margin",
+ "config":{"backend":"huggingface_local",
+ "revision":"7ae557604adf67be50417f59c2c2f167def9a775",
+ "candidate_a":" Ankara","candidate_b":" İstanbul"}}
+```
+
+The backend is offline-only, CPU float32, with a single allowlisted checkpoint,
+no remote code, a 128-token input budget and two distinct first-token candidates.
+Concurrent real inference is rejected instead of creating an unbounded queue.
+The last Hugging Face hidden state is already normalized; the adapter avoids
+normalizing it again and verifies native final-logit parity. Results include
+model revision, prompt digest, candidate token IDs, runtime and raw layer margins.
+These first-token margins are not full answer probabilities or causal explanations.
+
+`evidence/run_real_api.py` exercises the API with a temporary SQLite database and
+local artifact storage. It validates actual model execution, repeated-result
+identity, persistence and artifact consistency, and rejection of an unpinned
+revision. It does not validate PostgreSQL, S3, Docker or a cloud deployment.
+The old CI description above describes intended infrastructure; no currently
+active workflow or remote CI pass is claimed by this change.

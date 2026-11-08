@@ -1,0 +1,776 @@
+{
+  "first_token_collisions_rejected": [
+    {
+      "prompt": "2 + 2?",
+      "candidates": [
+        " 4",
+        " 5"
+      ],
+      "error": "first-token metric cannot distinguish candidates: use nonempty, distinct first tokens"
+    },
+    {
+      "prompt": "5 - 1?",
+      "candidates": [
+        " 4",
+        " 3"
+      ],
+      "error": "first-token metric cannot distinguish candidates: use nonempty, distinct first tokens"
+    },
+    {
+      "prompt": "3 + 4?",
+      "candidates": [
+        " 7",
+        " 8"
+      ],
+      "error": "first-token metric cannot distinguish candidates: use nonempty, distinct first tokens"
+    }
+  ],
+  "model_load_seconds": 2.5387505339999734,
+  "request_timing_scope": "all API requests use a preloaded checkpoint; includes inference/persistence/artifact operations",
+  "cache_info": "CacheInfo(hits=6, misses=1, maxsize=1, currsize=1)",
+  "rows": [
+    {
+      "prompt": "Türkiye'nin başkenti hangi şehirdir?",
+      "elapsed_seconds": 1.4418126309997206,
+      "result": {
+        "backend": "huggingface_local",
+        "is_model_execution": true,
+        "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+        "analysis_type": "layer_margin",
+        "metric": "first_token_candidate_logit_margin",
+        "prompt_format": "raw",
+        "summary": {
+          "layers_analyzed": 25,
+          "sign_flips": 8,
+          "strongest_layer": 0,
+          "strongest_margin": 9.846416473388672
+        },
+        "trajectory": [
+          {
+            "layer": 0,
+            "candidate_scores": {
+              " Ankara": -18.491596221923828,
+              " İstanbul": -28.3380126953125
+            },
+            "decision_margin": 9.846416473388672
+          },
+          {
+            "layer": 1,
+            "candidate_scores": {
+              " Ankara": -0.02647221088409424,
+              " İstanbul": 0.9512468576431274
+            },
+            "decision_margin": -0.9777190685272217
+          },
+          {
+            "layer": 2,
+            "candidate_scores": {
+              " Ankara": 0.09701582789421082,
+              " İstanbul": 1.7551360130310059
+            },
+            "decision_margin": -1.658120185136795
+          },
+          {
+            "layer": 3,
+            "candidate_scores": {
+              " Ankara": 2.394167423248291,
+              " İstanbul": 1.0591932535171509
+            },
+            "decision_margin": 1.3349741697311401
+          },
+          {
+            "layer": 4,
+            "candidate_scores": {
+              " Ankara": 1.2170069217681885,
+              " İstanbul": -0.45747601985931396
+            },
+            "decision_margin": 1.6744829416275024
+          },
+          {
+            "layer": 5,
+            "candidate_scores": {
+              " Ankara": 0.3053361177444458,
+              " İstanbul": -1.4166667461395264
+            },
+            "decision_margin": 1.7220028638839722
+          },
+          {
+            "layer": 6,
+            "candidate_scores": {
+              " Ankara": -1.1562827825546265,
+              " İstanbul": 0.3157370090484619
+            },
+            "decision_margin": -1.4720197916030884
+          },
+          {
+            "layer": 7,
+            "candidate_scores": {
+              " Ankara": -0.7857474088668823,
+              " İstanbul": 1.211611032485962
+            },
+            "decision_margin": -1.9973584413528442
+          },
+          {
+            "layer": 8,
+            "candidate_scores": {
+              " Ankara": -0.8367282152175903,
+              " İstanbul": 0.19600486755371094
+            },
+            "decision_margin": -1.0327330827713013
+          },
+          {
+            "layer": 9,
+            "candidate_scores": {
+              " Ankara": -1.4641250371932983,
+              " İstanbul": 1.0675621032714844
+            },
+            "decision_margin": -2.5316871404647827
+          },
+          {
+            "layer": 10,
+            "candidate_scores": {
+              " Ankara": -0.4207477569580078,
+              " İstanbul": 0.2862730026245117
+            },
+            "decision_margin": -0.7070207595825195
+          },
+          {
+            "layer": 11,
+            "candidate_scores": {
+              " Ankara": -0.8828070163726807,
+              " İstanbul": -0.978965163230896
+            },
+            "decision_margin": 0.09615814685821533
+          },
+          {
+            "layer": 12,
+            "candidate_scores": {
+              " Ankara": -2.445103645324707,
+              " İstanbul": -0.7834050059318542
+            },
+            "decision_margin": -1.6616986393928528
+          },
+          {
+            "layer": 13,
+            "candidate_scores": {
+              " Ankara": -3.011261463165283,
+              " İstanbul": -3.4228806495666504
+            },
+            "decision_margin": 0.4116191864013672
+          },
+          {
+            "layer": 14,
+            "candidate_scores": {
+              " Ankara": -2.095183849334717,
+              " İstanbul": -3.3539133071899414
+            },
+            "decision_margin": 1.2587294578552246
+          },
+          {
+            "layer": 15,
+            "candidate_scores": {
+              " Ankara": -1.5698840618133545,
+              " İstanbul": -0.9633692502975464
+            },
+            "decision_margin": -0.6065148115158081
+          },
+          {
+            "layer": 16,
+            "candidate_scores": {
+              " Ankara": -2.031829833984375,
+              " İstanbul": -1.5936853885650635
+            },
+            "decision_margin": -0.4381444454193115
+          },
+          {
+            "layer": 17,
+            "candidate_scores": {
+              " Ankara": -1.966866135597229,
+              " İstanbul": -1.9125497341156006
+            },
+            "decision_margin": -0.05431640148162842
+          },
+          {
+            "layer": 18,
+            "candidate_scores": {
+              " Ankara": 1.4667359590530396,
+              " İstanbul": 1.068267822265625
+            },
+            "decision_margin": 0.39846813678741455
+          },
+          {
+            "layer": 19,
+            "candidate_scores": {
+              " Ankara": 1.7061214447021484,
+              " İstanbul": 0.30800485610961914
+            },
+            "decision_margin": 1.3981165885925293
+          },
+          {
+            "layer": 20,
+            "candidate_scores": {
+              " Ankara": 1.9522318840026855,
+              " İstanbul": 1.8070963621139526
+            },
+            "decision_margin": 0.1451355218887329
+          },
+          {
+            "layer": 21,
+            "candidate_scores": {
+              " Ankara": 6.364701271057129,
+              " İstanbul": 5.919629096984863
+            },
+            "decision_margin": 0.4450721740722656
+          },
+          {
+            "layer": 22,
+            "candidate_scores": {
+              " Ankara": 6.325566291809082,
+              " İstanbul": 6.112865924835205
+            },
+            "decision_margin": 0.21270036697387695
+          },
+          {
+            "layer": 23,
+            "candidate_scores": {
+              " Ankara": 6.800957679748535,
+              " İstanbul": 5.768186569213867
+            },
+            "decision_margin": 1.032771110534668
+          },
+          {
+            "layer": 24,
+            "candidate_scores": {
+              " Ankara": 10.100372314453125,
+              " İstanbul": 9.473145484924316
+            },
+            "decision_margin": 0.6272268295288086
+          }
+        ],
+        "candidates": [
+          {
+            "label": " Ankara",
+            "token_ids": [
+              70244
+            ]
+          },
+          {
+            "label": " İstanbul",
+            "token_ids": [
+              129514
+            ]
+          }
+        ],
+        "provenance": {
+          "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+          "prompt_sha256": "665cf83ecd109f5bcc73b7e1c0107f35abf530631d67534228ec41ab4e223b43",
+          "prompt_tokens": 12,
+          "python": "3.12.14",
+          "torch": "2.15.0+cpu",
+          "transformers": "5.22.2",
+          "device": "cpu",
+          "dtype": "float32"
+        },
+        "native_final_logit_max_error": 0.0,
+        "note": "Real local model execution. First-token margins are not sequence probabilities or causal faithfulness. No cloud deployment claim."
+      },
+      "artifact_sha256": "e698f4ab085e8f57c1d83974061aa8db6dcff48862ee723128c45b295f359617"
+    },
+    {
+      "prompt": "Türkiye'nin başkenti hangi şehirdir?",
+      "elapsed_seconds": 1.432960009999988,
+      "result": {
+        "backend": "huggingface_local",
+        "is_model_execution": true,
+        "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+        "analysis_type": "layer_margin",
+        "metric": "first_token_candidate_logit_margin",
+        "prompt_format": "raw",
+        "summary": {
+          "layers_analyzed": 25,
+          "sign_flips": 8,
+          "strongest_layer": 0,
+          "strongest_margin": 9.846416473388672
+        },
+        "trajectory": [
+          {
+            "layer": 0,
+            "candidate_scores": {
+              " Ankara": -18.491596221923828,
+              " İstanbul": -28.3380126953125
+            },
+            "decision_margin": 9.846416473388672
+          },
+          {
+            "layer": 1,
+            "candidate_scores": {
+              " Ankara": -0.02647221088409424,
+              " İstanbul": 0.9512468576431274
+            },
+            "decision_margin": -0.9777190685272217
+          },
+          {
+            "layer": 2,
+            "candidate_scores": {
+              " Ankara": 0.09701582789421082,
+              " İstanbul": 1.7551360130310059
+            },
+            "decision_margin": -1.658120185136795
+          },
+          {
+            "layer": 3,
+            "candidate_scores": {
+              " Ankara": 2.394167423248291,
+              " İstanbul": 1.0591932535171509
+            },
+            "decision_margin": 1.3349741697311401
+          },
+          {
+            "layer": 4,
+            "candidate_scores": {
+              " Ankara": 1.2170069217681885,
+              " İstanbul": -0.45747601985931396
+            },
+            "decision_margin": 1.6744829416275024
+          },
+          {
+            "layer": 5,
+            "candidate_scores": {
+              " Ankara": 0.3053361177444458,
+              " İstanbul": -1.4166667461395264
+            },
+            "decision_margin": 1.7220028638839722
+          },
+          {
+            "layer": 6,
+            "candidate_scores": {
+              " Ankara": -1.1562827825546265,
+              " İstanbul": 0.3157370090484619
+            },
+            "decision_margin": -1.4720197916030884
+          },
+          {
+            "layer": 7,
+            "candidate_scores": {
+              " Ankara": -0.7857474088668823,
+              " İstanbul": 1.211611032485962
+            },
+            "decision_margin": -1.9973584413528442
+          },
+          {
+            "layer": 8,
+            "candidate_scores": {
+              " Ankara": -0.8367282152175903,
+              " İstanbul": 0.19600486755371094
+            },
+            "decision_margin": -1.0327330827713013
+          },
+          {
+            "layer": 9,
+            "candidate_scores": {
+              " Ankara": -1.4641250371932983,
+              " İstanbul": 1.0675621032714844
+            },
+            "decision_margin": -2.5316871404647827
+          },
+          {
+            "layer": 10,
+            "candidate_scores": {
+              " Ankara": -0.4207477569580078,
+              " İstanbul": 0.2862730026245117
+            },
+            "decision_margin": -0.7070207595825195
+          },
+          {
+            "layer": 11,
+            "candidate_scores": {
+              " Ankara": -0.8828070163726807,
+              " İstanbul": -0.978965163230896
+            },
+            "decision_margin": 0.09615814685821533
+          },
+          {
+            "layer": 12,
+            "candidate_scores": {
+              " Ankara": -2.445103645324707,
+              " İstanbul": -0.7834050059318542
+            },
+            "decision_margin": -1.6616986393928528
+          },
+          {
+            "layer": 13,
+            "candidate_scores": {
+              " Ankara": -3.011261463165283,
+              " İstanbul": -3.4228806495666504
+            },
+            "decision_margin": 0.4116191864013672
+          },
+          {
+            "layer": 14,
+            "candidate_scores": {
+              " Ankara": -2.095183849334717,
+              " İstanbul": -3.3539133071899414
+            },
+            "decision_margin": 1.2587294578552246
+          },
+          {
+            "layer": 15,
+            "candidate_scores": {
+              " Ankara": -1.5698840618133545,
+              " İstanbul": -0.9633692502975464
+            },
+            "decision_margin": -0.6065148115158081
+          },
+          {
+            "layer": 16,
+            "candidate_scores": {
+              " Ankara": -2.031829833984375,
+              " İstanbul": -1.5936853885650635
+            },
+            "decision_margin": -0.4381444454193115
+          },
+          {
+            "layer": 17,
+            "candidate_scores": {
+              " Ankara": -1.966866135597229,
+              " İstanbul": -1.9125497341156006
+            },
+            "decision_margin": -0.05431640148162842
+          },
+          {
+            "layer": 18,
+            "candidate_scores": {
+              " Ankara": 1.4667359590530396,
+              " İstanbul": 1.068267822265625
+            },
+            "decision_margin": 0.39846813678741455
+          },
+          {
+            "layer": 19,
+            "candidate_scores": {
+              " Ankara": 1.7061214447021484,
+              " İstanbul": 0.30800485610961914
+            },
+            "decision_margin": 1.3981165885925293
+          },
+          {
+            "layer": 20,
+            "candidate_scores": {
+              " Ankara": 1.9522318840026855,
+              " İstanbul": 1.8070963621139526
+            },
+            "decision_margin": 0.1451355218887329
+          },
+          {
+            "layer": 21,
+            "candidate_scores": {
+              " Ankara": 6.364701271057129,
+              " İstanbul": 5.919629096984863
+            },
+            "decision_margin": 0.4450721740722656
+          },
+          {
+            "layer": 22,
+            "candidate_scores": {
+              " Ankara": 6.325566291809082,
+              " İstanbul": 6.112865924835205
+            },
+            "decision_margin": 0.21270036697387695
+          },
+          {
+            "layer": 23,
+            "candidate_scores": {
+              " Ankara": 6.800957679748535,
+              " İstanbul": 5.768186569213867
+            },
+            "decision_margin": 1.032771110534668
+          },
+          {
+            "layer": 24,
+            "candidate_scores": {
+              " Ankara": 10.100372314453125,
+              " İstanbul": 9.473145484924316
+            },
+            "decision_margin": 0.6272268295288086
+          }
+        ],
+        "candidates": [
+          {
+            "label": " Ankara",
+            "token_ids": [
+              70244
+            ]
+          },
+          {
+            "label": " İstanbul",
+            "token_ids": [
+              129514
+            ]
+          }
+        ],
+        "provenance": {
+          "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+          "prompt_sha256": "665cf83ecd109f5bcc73b7e1c0107f35abf530631d67534228ec41ab4e223b43",
+          "prompt_tokens": 12,
+          "python": "3.12.14",
+          "torch": "2.15.0+cpu",
+          "transformers": "5.22.2",
+          "device": "cpu",
+          "dtype": "float32"
+        },
+        "native_final_logit_max_error": 0.0,
+        "note": "Real local model execution. First-token margins are not sequence probabilities or causal faithfulness. No cloud deployment claim."
+      },
+      "artifact_sha256": "e698f4ab085e8f57c1d83974061aa8db6dcff48862ee723128c45b295f359617"
+    },
+    {
+      "prompt": "Fransa'nın başkenti hangi şehirdir?",
+      "elapsed_seconds": 1.413155762000315,
+      "result": {
+        "backend": "huggingface_local",
+        "is_model_execution": true,
+        "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+        "analysis_type": "layer_margin",
+        "metric": "first_token_candidate_logit_margin",
+        "prompt_format": "raw",
+        "summary": {
+          "layers_analyzed": 25,
+          "sign_flips": 8,
+          "strongest_layer": 0,
+          "strongest_margin": 9.846416473388672
+        },
+        "trajectory": [
+          {
+            "layer": 0,
+            "candidate_scores": {
+              " Ankara": -18.491596221923828,
+              " İstanbul": -28.3380126953125
+            },
+            "decision_margin": 9.846416473388672
+          },
+          {
+            "layer": 1,
+            "candidate_scores": {
+              " Ankara": 0.08407428860664368,
+              " İstanbul": 1.023298740386963
+            },
+            "decision_margin": -0.9392244517803192
+          },
+          {
+            "layer": 2,
+            "candidate_scores": {
+              " Ankara": 0.4707627296447754,
+              " İstanbul": 1.7608072757720947
+            },
+            "decision_margin": -1.2900445461273193
+          },
+          {
+            "layer": 3,
+            "candidate_scores": {
+              " Ankara": 2.263852119445801,
+              " İstanbul": 0.6928197741508484
+            },
+            "decision_margin": 1.5710323452949524
+          },
+          {
+            "layer": 4,
+            "candidate_scores": {
+              " Ankara": 1.2044591903686523,
+              " İstanbul": -0.6652156710624695
+            },
+            "decision_margin": 1.8696748614311218
+          },
+          {
+            "layer": 5,
+            "candidate_scores": {
+              " Ankara": 0.6285799741744995,
+              " İstanbul": -1.0923945903778076
+            },
+            "decision_margin": 1.7209745645523071
+          },
+          {
+            "layer": 6,
+            "candidate_scores": {
+              " Ankara": -0.8178448677062988,
+              " İstanbul": -0.004498004913330078
+            },
+            "decision_margin": -0.8133468627929688
+          },
+          {
+            "layer": 7,
+            "candidate_scores": {
+              " Ankara": -0.1927626132965088,
+              " İstanbul": 1.419101357460022
+            },
+            "decision_margin": -1.6118639707565308
+          },
+          {
+            "layer": 8,
+            "candidate_scores": {
+              " Ankara": -0.45082855224609375,
+              " İstanbul": 0.5838221311569214
+            },
+            "decision_margin": -1.0346506834030151
+          },
+          {
+            "layer": 9,
+            "candidate_scores": {
+              " Ankara": -0.7710177898406982,
+              " İstanbul": 1.231124758720398
+            },
+            "decision_margin": -2.002142548561096
+          },
+          {
+            "layer": 10,
+            "candidate_scores": {
+              " Ankara": 0.5276682376861572,
+              " İstanbul": 0.33940649032592773
+            },
+            "decision_margin": 0.1882617473602295
+          },
+          {
+            "layer": 11,
+            "candidate_scores": {
+              " Ankara": -0.27558231353759766,
+              " İstanbul": -1.3738744258880615
+            },
+            "decision_margin": 1.0982921123504639
+          },
+          {
+            "layer": 12,
+            "candidate_scores": {
+              " Ankara": -1.8003485202789307,
+              " İstanbul": -0.7877874374389648
+            },
+            "decision_margin": -1.0125610828399658
+          },
+          {
+            "layer": 13,
+            "candidate_scores": {
+              " Ankara": -3.498783826828003,
+              " İstanbul": -3.314481735229492
+            },
+            "decision_margin": -0.18430209159851074
+          },
+          {
+            "layer": 14,
+            "candidate_scores": {
+              " Ankara": -2.476137161254883,
+              " İstanbul": -3.6023812294006348
+            },
+            "decision_margin": 1.126244068145752
+          },
+          {
+            "layer": 15,
+            "candidate_scores": {
+              " Ankara": -1.7247698307037354,
+              " İstanbul": -0.7078367471694946
+            },
+            "decision_margin": -1.0169330835342407
+          },
+          {
+            "layer": 16,
+            "candidate_scores": {
+              " Ankara": -1.6934560537338257,
+              " İstanbul": -1.356602430343628
+            },
+            "decision_margin": -0.33685362339019775
+          },
+          {
+            "layer": 17,
+            "candidate_scores": {
+              " Ankara": -1.9972964525222778,
+              " İstanbul": -1.6719752550125122
+            },
+            "decision_margin": -0.3253211975097656
+          },
+          {
+            "layer": 18,
+            "candidate_scores": {
+              " Ankara": 1.2301654815673828,
+              " İstanbul": 0.30109477043151855
+            },
+            "decision_margin": 0.9290707111358643
+          },
+          {
+            "layer": 19,
+            "candidate_scores": {
+              " Ankara": 1.057765007019043,
+              " İstanbul": -0.9749592542648315
+            },
+            "decision_margin": 2.0327242612838745
+          },
+          {
+            "layer": 20,
+            "candidate_scores": {
+              " Ankara": 1.956857681274414,
+              " İstanbul": 1.148269772529602
+            },
+            "decision_margin": 0.808587908744812
+          },
+          {
+            "layer": 21,
+            "candidate_scores": {
+              " Ankara": 5.073819160461426,
+              " İstanbul": 2.421611785888672
+            },
+            "decision_margin": 2.652207374572754
+          },
+          {
+            "layer": 22,
+            "candidate_scores": {
+              " Ankara": 4.581417083740234,
+              " İstanbul": 2.3737950325012207
+            },
+            "decision_margin": 2.2076220512390137
+          },
+          {
+            "layer": 23,
+            "candidate_scores": {
+              " Ankara": 5.521429538726807,
+              " İstanbul": 1.298582911491394
+            },
+            "decision_margin": 4.222846627235413
+          },
+          {
+            "layer": 24,
+            "candidate_scores": {
+              " Ankara": 8.709096908569336,
+              " İstanbul": 4.394074440002441
+            },
+            "decision_margin": 4.3150224685668945
+          }
+        ],
+        "candidates": [
+          {
+            "label": " Ankara",
+            "token_ids": [
+              70244
+            ]
+          },
+          {
+            "label": " İstanbul",
+            "token_ids": [
+              129514
+            ]
+          }
+        ],
+        "provenance": {
+          "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+          "prompt_sha256": "0687034e6cf38e26ae3042788f753680e299a1e857bc71425b865952f2621554",
+          "prompt_tokens": 13,
+          "python": "3.12.14",
+          "torch": "2.15.0+cpu",
+          "transformers": "5.22.2",
+          "device": "cpu",
+          "dtype": "float32"
+        },
+        "native_final_logit_max_error": 0.0,
+        "note": "Real local model execution. First-token margins are not sequence probabilities or causal faithfulness. No cloud deployment claim."
+      },
+      "artifact_sha256": "814417f85b87ebce4b9dec011f45bd0d8060bfc87422cb0961df2a6b1f14be03"
+    }
+  ],
+  "validated": "POST -> real model -> SQL persistence -> local JSON -> GET; repeated prompt identical",
+  "limits": "SQLite/local disk only. PostgreSQL, S3, Docker and remote CI not exercised. One checkpoint, three requests, two unique prompts. Latency shared-host descriptive only."
+}

@@ -1,0 +1,2 @@
+Loading weights:   0%|          | 0/290 [00:00<?, ?it/s]Loading weights:  20%|██        | 59/290 [00:00<00:00, 589.91it/s]Loading weights: 100%|██████████| 290/290 [00:00<00:00, 1962.02it/s]
+3 real API requests verified; 3 ambiguous Math candidate pairs rejected without artifacts; invalid revision rejected before insert

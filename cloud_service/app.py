@@ -1,10 +1,10 @@
 from contextlib import asynccontextmanager
-
-from fastapi import Depends, FastAPI, HTTPException
-from sqlalchemy.orm import Session
+from typing import Annotated
 
 from database import Experiment, SessionLocal, init_db
+from fastapi import Depends, FastAPI, HTTPException
 from schemas import ExperimentCreate, ExperimentRead
+from sqlalchemy.orm import Session
 from storage import save_json_artifact
 from worker import run_experiment
 
@@ -37,7 +37,7 @@ def health() -> dict[str, str]:
 
 
 @app.post("/experiments", response_model=ExperimentRead, status_code=201)
-def create_experiment(payload: ExperimentCreate, db: Session = Depends(get_db)):
+def create_experiment(payload: ExperimentCreate, db: Annotated[Session, Depends(get_db)]):
     exp = Experiment(**payload.model_dump(), status="running")
     db.add(exp)
     db.commit()
@@ -53,7 +53,7 @@ def create_experiment(payload: ExperimentCreate, db: Session = Depends(get_db)):
         exp.result = result
         exp.artifact_uri = save_json_artifact(exp.id, result)
         exp.status = "completed"
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001 - persist failed worker outcome at API boundary
         exp.status = "failed"
         exp.result = {"error": str(exc)}
 
@@ -63,7 +63,7 @@ def create_experiment(payload: ExperimentCreate, db: Session = Depends(get_db)):
 
 
 @app.get("/experiments", response_model=list[ExperimentRead])
-def list_experiments(limit: int = 50, db: Session = Depends(get_db)):
+def list_experiments(db: Annotated[Session, Depends(get_db)], limit: int = 50):
     limit = max(1, min(limit, 200))
     return (
         db.query(Experiment)
@@ -74,7 +74,7 @@ def list_experiments(limit: int = 50, db: Session = Depends(get_db)):
 
 
 @app.get("/experiments/{experiment_id}", response_model=ExperimentRead)
-def get_experiment(experiment_id: str, db: Session = Depends(get_db)):
+def get_experiment(experiment_id: str, db: Annotated[Session, Depends(get_db)]):
     exp = db.get(Experiment, experiment_id)
     if exp is None:
         raise HTTPException(status_code=404, detail="Experiment not found")
